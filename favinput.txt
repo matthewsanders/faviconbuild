@@ -1,0 +1,42 @@
+:convertImage ,#source#, 16
+:convertImage ,#source#, 24
+:convertImage ,#source#, 32
+:convertImage ,#source#, 48
+:convertImage ,#source#, 64
+
+:createIcon 16 24 32 48 64
+
+del ,#outdir#,,#subdir#,,#name#,-16x16.png
+del ,#outdir#,,#subdir#,,#name#,-24x24.png
+del ,#outdir#,,#subdir#,,#name#,-48x48.png
+del ,#outdir#,,#subdir#,,#name#,-64x64.png
+
+:createMeta "msapplication-TileColor" 0 0 false ,#color#,
+:createMeta "msapplication-TileImage" 144 144 false
+:createMeta "msapplication-square70x70logo" 70 70 true
+:createMeta "msapplication-square150x150logo" 150 150 true
+:createMeta "msapplication-wide310x150logo" 310 150 true
+:createMeta "msapplication-square310x310logo" 310 310 true
+
+:createLink "apple-touch-icon-precomposed" 152 152 false true
+:createLink "apple-touch-icon-precomposed" 144 144 true true
+:createLink "apple-touch-icon-precomposed" 120 120 true true
+:createLink "apple-touch-icon-precomposed" 114 114 true true
+:createLink "apple-touch-icon-precomposed" 76 76 true true
+:createLink "apple-touch-icon-precomposed" 72 72 true true
+:createLink "apple-touch-icon-precomposed" 60 60 true true
+:createLink "apple-touch-icon-precomposed" 57 57 true true
+
+:createLink "icon" 32 32 true false
+:createLink "icon" 57 57 true false
+:createLink "icon" 72 72 true false
+:createLink "icon" 90 90 true true
+:createLink "icon" 96 96 true true
+:createLink "icon" 120 120 true false
+:createLink "icon" 128 128 true true
+:createLink "icon" 144 144 true false
+:createLink "icon" 152 152 true false
+:createLink "icon" 192 192 true true
+:createLink "icon" 195 195 true true
+:createLink "icon" 228 228 true true
+:createLink "icon" 256 256 true true
