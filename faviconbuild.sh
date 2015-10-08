@@ -8,6 +8,7 @@ name=favicon
 source=source.png
 color=#000000
 outext=ejs
+parsed=./favinput.txt
 
 if [ "$(uname)" == "Darwin" ]; then
 	#echo "Mac"
@@ -34,6 +35,7 @@ usage()
     echo "	-i  | --source          Source Image (hint: make this a square image larger then current largest output image)"
     echo "	-c  | --bgcolor         Background color (used for windows tile)"
     echo "	-e  | --scriptext       Script Extension (ex: html, ejs, etc.)"
+    echo "	-p  | --parsed          Allows you to override the file to parse for commands"
     echo "	-h  | --help            This Menu"
 }
 
@@ -113,18 +115,27 @@ while [ "$1" != "" ]; do
         -o | --outdir )         shift
                                 outdir=$1
                                 ;;
-        -k | --imagemagick )    imagemagickdir=$1
+        -k | --imagemagick )    shift
+								imagemagickdir=$1
                                 ;;
-        -s | --subdir )    		subdir=$1
+        -s | --subdir )    		shift
+								subdir=$1
                                 ;;
-        -ls | --linksubdir )   	linksubdir=$1
+        -ls | --linksubdir )   	shift
+								linksubdir=$1
                                 ;;
-        -i | --source )   		source=$1
+        -i | --source )   		shift
+								source=$1
                                 ;;                                
-        -c | --color )   		color=$1
+        -c | --color )   		shift
+								color=$1
                                 ;;
-        -e | --ext )   			outext=$1
-                                ;;                                
+        -e | --ext )   			shift
+								outext=$1
+                                ;;   
+        -p | --parsed )   		shift
+								parsed=$1
+                                ;;                             
         -h | --help )           usage
                                 exit
                                 ;;
@@ -161,4 +172,4 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
     result_string="${result_string//:/}"
 
     eval $result_string
-done < "./favinput.txt"
+done < ${parsed}

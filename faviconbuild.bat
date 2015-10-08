@@ -9,6 +9,7 @@ set source=source.png
 set color=#000000
 set imagemagickdir=windows
 set outext=ejs
+set parsed=favinput.txt
 
 goto :commandlineparsestart
 
@@ -26,6 +27,7 @@ setlocal
     echo 	-i  ^| --source          Source Image (hint: make this a square image larger then current largest output image)
     echo 	-c  ^| --bgcolor         Background color (used for windows tile)
     echo 	-e  ^| --scriptext       Script Extension (ex: html, ejs, etc.)
+    echo 	-p  ^| --parsed          Allows you to override the file to parse for commands
     echo 	-h  ^| --help            This Menu
 endlocal
 goto :eof
@@ -109,6 +111,8 @@ if /I %1 == -c set color=%2& shift
 if /I %1 == --color set color=%2& shift
 if /I %1 == -e set outext=%2& shift
 if /I %1 == --ext set outext=%2& shift
+if /I %1 == -p set parsed=%2& shift
+if /I %1 == --parsed set parsed=%2& shift
 if /I %1 == -h goto usage
 if /I %1 == --help goto usage
 shift
@@ -133,7 +137,7 @@ REM main program
 mkdir %outdir%%subdir% >nul 2>&1
 del /s %outdir%%name%.%outext% >nul 2>&1
 
-for /F "tokens=*" %%A in (favinput.txt) do (
+for /F "tokens=*" %%A in (%parsed%) do (
 	call :loop %%A
 )
 goto :EOF
