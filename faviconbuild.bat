@@ -1,15 +1,17 @@
 @echo off
 
+set batdir=%~dp0
+
 REM defaults
-set outdir=build
+set outdir=%batdir%build
 set subdir=favicons
 set linksubdir=\%subdir%
 set name=favicon
 set source=source.png
 set color=#000000
-set imagemagickdir=windows
+set imagemagickdir=%batdir%
 set outext=ejs
-set parsed=favinput.txt
+set parsed=%batdir%favinput.txt
 
 goto :commandlineparsestart
 
@@ -43,8 +45,9 @@ setlocal
 	
 	if NOT "%bg_color%" == "" set options=%options% -background %bg_color%
 	if NOT "%size_w%" == "%size_h%" set options=%options% -gravity center -extent %size_w%x%size_h%
-
-	%imagemagickdir%convert %source_name% %options% %outdir%%subdir%%name%-%size_w%x%size_h%.png
+		
+	"%imagemagickdir%convert" "%source_name%" %options% "%outdir%%subdir%%name%-%size_w%x%size_h%.png"
+	
 endlocal
 goto :eof
 
@@ -53,11 +56,11 @@ setlocal
 	set files=
 	:whileLoop
 		set size=%1
-		set files=%files% %outdir%%subdir%%name%-%size%x%size%.png
+		set files=%files% "%outdir%%subdir%%name%-%size%x%size%.png"
 		shift
 	if NOT "%1" == "" goto whileLoop
 	
-	%imagemagickdir%convert %files% %outdir%%name%.ico
+	"%imagemagickdir%convert" %files% "%outdir%%name%.ico"
 endlocal
 goto :eof
 
@@ -73,8 +76,8 @@ setlocal
 	if "%size_h%" == "" set size_h=%size_w%
 	if "%include_sizes%" == "true" set sizes= sizes="%size_w%x%size_h%" 
 
-	echo ^<link rel=%rel%%sizes% href="%linksubdir%%name%-%size_w%x%size_h%.png"^> >> %outdir%%name%.%outext%
-	if "%convert%" == "true" call :convertImage %source% %size_w% %size_h%
+	echo ^<link rel=%rel%%sizes% href="%linksubdir%%name%-%size_w%x%size_h%.png"^> >> "%outdir%%name%.%outext%"
+	if "%convert%" == "true" call :convertImage "%source%" %size_w% %size_h%
 endlocal
 goto :eof
 
@@ -88,8 +91,8 @@ setlocal
 
 	if "%content%" == "" set content=%linksubdir%%name%-%size_w%x%size_h%.png
 
-	echo ^<meta name=%meta_name% content="%content%"^> >> %outdir%%name%.%outext%
-	if "%convert%" == "true" call :convertImage %source% %size_w% %size_h% %color%
+	echo ^<meta name=%meta_name% content="%content%"^> >> "%outdir%%name%.%outext%"
+	if "%convert%" == "true" call :convertImage "%source%" %size_w% %size_h% %color%
 	
 endlocal
 goto :eof
@@ -120,24 +123,16 @@ goto commandlineparsestart
 :commandlineparseend
 
 REM directory fixup
-if %outdir% == "" (
-	set outdir=.
-)
 set outdir=%outdir%\
-if %subdir% == "" (
-	set subdir=.
-)
 set subdir=%subdir%\
-if %imagemagickdir% == "" (
-	set imagemagickdir=.
-)
-set imagemagickdir=%imagemagickdir%\
+set imagemagickdir=%imagemagickdir%
 
 REM main program
-mkdir %outdir%%subdir% >nul 2>&1
-del /s %outdir%%name%.%outext% >nul 2>&1
+mkdir "%outdir%%subdir%" >nul 2>&1
+del /s "%outdir%%name%.%outext%" >nul 2>&1
 
-for /F "tokens=*" %%A in (%parsed%) do (
+REM "tokens=*"
+for /F "usebackq tokens=* delims=*" %%A in ("%parsed%") do (
 	call :loop %%A
 )
 goto :EOF

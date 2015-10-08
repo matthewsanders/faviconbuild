@@ -6,10 +6,10 @@
 
 :createIcon 16 24 32 48 64
 
-del ,#outdir#,,#subdir#,,#name#,-16x16.png
-del ,#outdir#,,#subdir#,,#name#,-24x24.png
-del ,#outdir#,,#subdir#,,#name#,-48x48.png
-del ,#outdir#,,#subdir#,,#name#,-64x64.png
+del ",#outdir#,,#subdir#,,#name#,-16x16.png"
+del ",#outdir#,,#subdir#,,#name#,-24x24.png"
+del ",#outdir#,,#subdir#,,#name#,-48x48.png"
+del ",#outdir#,,#subdir#,,#name#,-64x64.png"
 
 :createMeta "msapplication-TileColor" 0 0 false ,#color#,
 :createMeta "msapplication-TileImage" 144 144 false

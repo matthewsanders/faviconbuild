@@ -1,14 +1,23 @@
 #!/bin/bash
 
+# path resolution
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 # defaults
-outdir=build
+outdir=${DIR}/build
 subdir=favicons
 linksubdir=/$subdir
 name=favicon
 source=source.png
 color=#000000
 outext=ejs
-parsed=./favinput.txt
+parsed=${DIR}/favinput.txt
 
 if [ "$(uname)" == "Darwin" ]; then
 	#echo "Mac"
@@ -58,17 +67,20 @@ convertImage()
 	if [ "${size_w}" != "${size_h}" ]; then
 		options=${options}" -gravity center -extent ${size_w}x$size_h"
 	fi
-	${imagemagickdir}convert $source_name $options $outdir$subdir${name}-${size_w}x${size_h}.png
+
+	"${imagemagickdir}convert" "$source_name" $options "$outdir$subdir${name}-${size_w}x${size_h}.png"
 }
 
 createIcon()
 {
-	files=
+	files=()
 	while [ "$1" != "" ]; do
-		files="$files$outdir$subdir${name}-${1}x${1}.png "
+		file="${outdir}${subdir}${name}-${1}x${1}.png"
+		files+=("$file")
 		shift
 	done
-	${imagemagickdir}convert $files$outdir${name}.ico
+
+	"${imagemagickdir}convert" "${files[@]}" "$outdir${name}.ico"
 }
 
 createLink()
@@ -86,9 +98,9 @@ createLink()
 	if [ "${include_sizes}" = "true" ]; then
 		sizes=' sizes="'${size_w}x${size_h}'"' 
 	fi
-	echo '<link rel="'${rel}'"'${sizes}' href="'${linksubdir}${name}-${size_w}x${size_h}.png'">' >> $outdir${name}.$outext
+	echo '<link rel="'${rel}'"'${sizes}' href="'${linksubdir}${name}-${size_w}x${size_h}.png'">' >> "$outdir${name}.$outext"
 	if [ "${convert}" = "true" ]; then
-		convertImage $source $size_w $size_h
+		convertImage "$source" $size_w $size_h
     fi
 }
 
@@ -103,9 +115,9 @@ createMeta()
 	if [ "${content}" = "" ]; then
 		content=${linksubdir}${name}-${size_w}x${size_h}.png
 	fi
-	echo '<meta name="'${meta_name}'" content="'${content}'">' >> $outdir${name}.$outext
+	echo '<meta name="'${meta_name}'" content="'${content}'">' >> "$outdir${name}.$outext"
 	if [ "${convert}" = "true" ]; then
-		convertImage $source $size_w $size_h $color
+		convertImage "$source" $size_w $size_h $color
     fi
 }
 
@@ -160,8 +172,8 @@ fi
 imagemagickdir=${imagemagickdir}/
 
 # main program
-mkdir -p $outdir$subdir
-rm -f $outdir${name}.$outext
+mkdir -p "$outdir$subdir"
+rm -f "$outdir${name}.$outext"
 
 start_token=\$\{
 end_token=\}
@@ -172,4 +184,4 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
     result_string="${result_string//:/}"
 
     eval $result_string
-done < ${parsed}
+done < "${parsed}"
