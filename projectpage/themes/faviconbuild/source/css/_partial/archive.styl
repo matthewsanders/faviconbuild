@@ -1,0 +1,51 @@
+.archives-wrap
+  position relative
+.archives
+  clearfix()
+  @media mq-tablet
+    margin 0 spacing-unit spacing-unit 0
+  @media mq-pc
+    margin 0 0 spacing-unit (spacing-unit*-1)
+.archive-article
+  border-top 1px solid #eee
+  &:first-child
+    border-top 0
+  &:nth-child(even)
+    background #eee
+  @media mq-tablet
+    float left
+    margin-top spacing-unit
+    width 50%
+    border-top-width 0
+    &:nth-child(even)
+      background transparent
+  @media mq-pc
+    width 33.3%
+  .archive-article-inner
+    height 100%
+    overflow hidden
+    background-repeat no-repeat
+    background-position 50% 50%
+    background-size cover
+    @media mq-tablet
+      position relative
+      margin-left spacing-unit
+      height 150px
+      mask()
+    @media mq-pc
+      height 200px
+    .archive-article-header
+      padding spacing-unit
+      height 100%
+      background rgba(255,255,255,.8)
+    .archive-article-year
+    .archive-article-date
+      position relative
+      z-index 100
+      font-size font-size-small
+    .archive-article-title
+      position relative
+      z-index 100
+      margin 0
+      font-size font-size
+      overflow hidden
