@@ -2,10 +2,8 @@
 home: false  # True : Set home as latest post, False : Set home as an index
 
 # Header
-menu:
-  Archives: /archives
-rss: /atom.xml
-background: http://reumia.github.io/hexo-theme-zzoman2015/images/background-zzoman2015.jpg # Header Background Image
+
+background: eagle.jpeg
 
 # Library
 fancybox: true
@@ -18,4 +16,4 @@ widgets:
 - recent_posts
 
 # Google Analytics
-ga_id :
+ga_id : UA-68195561-2

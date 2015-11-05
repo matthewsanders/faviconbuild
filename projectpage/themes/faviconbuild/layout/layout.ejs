@@ -43,12 +43,12 @@
                 <% if ( theme.rss ){ %>
                 <li><a href="<%- theme.rss %>" title="RSS Feed">rss</a></li>
                 <% } %>
-                <li><a class="toggle-search" href="#search">search</a></li>
+                <li><a href="https://github.com/matthewsanders/faviconbuild">GitHub</a></li>
+                <li><a href="https://github.com/matthewsanders/faviconbuild/zipball/master">Zip</a></li>
+                <li><a href="https://github.com/matthewsanders/faviconbuild/tarball/master">Tar</a></li>
             </ul>
         </nav>
-        <div class="site-search" id="search">
-            <%- search_form() %>
-        </div>
+
         <% if ( theme.background ) {%>
             <div class="site-header-background" style="background-image:url(<%= theme.background %>)"></div>
         <% } %>
@@ -58,13 +58,6 @@
     </div>
     <footer class="site-footer">
         <div class="global-width">
-            <ul class="site-widget">
-                <% theme.widgets.forEach(function(widget){ %>
-                <li class="widget widget-<%= widget %>">
-                    <%- partial('_widget/' + widget) %>
-                </li>
-                <% }) %>
-            </ul>
         </div>
         <div class="site-info">
             <address>
