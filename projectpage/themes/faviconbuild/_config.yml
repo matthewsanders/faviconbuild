@@ -6,7 +6,7 @@ home: false  # True : Set home as latest post, False : Set home as an index
 background: eagle.jpeg
 
 # Library
-fancybox: true
+fancybox: false
 
 # Widget
 # Widget List : category, tag, archive, recent_posts
